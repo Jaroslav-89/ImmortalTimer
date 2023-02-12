@@ -1,5 +1,8 @@
 package com.jar89.timer;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,10 +30,12 @@ public class MainActivity extends AppCompatActivity {
     private boolean stopBtnVisible = false;
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("StopwatchSetting", Context.MODE_PRIVATE);
         boolean firstStartApp = sharedPreferences.getBoolean("firstStartApp", true);
@@ -40,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             final Button stopBtn = (Button) findViewById(R.id.stop);
             final Button resetUnavailableBtn = (Button) findViewById(R.id.reset_unavailable);
             final Button resetAvailableBtn = (Button) findViewById(R.id.reset_available);
+            ConstraintLayout mainBg = findViewById(R.id.main_activity);
 
 
             //Получаем значения из настроек, сохраненных в памяти устройства, на случай закрытия приложения во время работы
@@ -58,18 +65,23 @@ public class MainActivity extends AppCompatActivity {
             if (startBtnVisible) {
                 startBtn.setVisibility(View.VISIBLE);
                 stopBtn.setVisibility(View.GONE);
-
-
             } else {
                 startBtn.setVisibility(View.GONE);
                 stopBtn.setVisibility(View.VISIBLE);
 
             }
 
-            if (running||pause){
+            if (running) {
                 resetUnavailableBtn.setVisibility(View.GONE);
                 resetAvailableBtn.setVisibility(View.VISIBLE);
-            }else {
+                //Окрашиваем фон зеленым
+                mainBg.setBackgroundResource(R.drawable.green_gradient_bg);
+            } else if (pause) {
+                resetUnavailableBtn.setVisibility(View.GONE);
+                resetAvailableBtn.setVisibility(View.VISIBLE);
+                //Окрашиваем фон желтым
+                mainBg.setBackgroundResource(R.drawable.yellow_gradient_bg);
+            } else {
                 resetUnavailableBtn.setVisibility(View.VISIBLE);
                 resetAvailableBtn.setVisibility(View.GONE);
             }
@@ -93,9 +105,11 @@ public class MainActivity extends AppCompatActivity {
         final Button stopBtn = (Button) findViewById(R.id.stop);
         final Button resetUnavailableBtn = (Button) findViewById(R.id.reset_unavailable);
         final Button resetAvailableBtn = (Button) findViewById(R.id.reset_available);
+        ConstraintLayout mainBg = findViewById(R.id.main_activity);
 
         resetUnavailableBtn.setVisibility(View.GONE);
         resetAvailableBtn.setVisibility(View.VISIBLE);
+
 
         if (!timerOn) {
             if (!running) {
@@ -123,11 +137,15 @@ public class MainActivity extends AppCompatActivity {
             stopBtn.setVisibility(View.VISIBLE);
             startBtnVisible = false;
             stopBtnVisible = true;
+            //Окрашиваем фон зеленым
+            mainBg.setBackgroundResource(R.drawable.green_gradient_bg);
         } else {
             startBtn.setVisibility(View.VISIBLE);
             stopBtn.setVisibility(View.GONE);
             startBtnVisible = true;
             stopBtnVisible = false;
+            //Окрашиваем фон желтым
+            mainBg.setBackgroundResource(R.drawable.yellow_gradient_bg);
         }
 
 
@@ -149,15 +167,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     public void onClickReset(View view) {
 
         //Получаем значения из настроек, сохраненных в памяти устройства, на случай закрытия приложения во время работы
         SharedPreferences sharedPreferences = this.getSharedPreferences("StopwatchSetting", Context.MODE_PRIVATE);
 
+
         final Button startBtn = (Button) findViewById(R.id.start);
         final Button stopBtn = (Button) findViewById(R.id.stop);
         final Button resetUnavailableBtn = (Button) findViewById(R.id.reset_unavailable);
         final Button resetAvailableBtn = (Button) findViewById(R.id.reset_available);
+
 
         running = false;
         pause = false;
@@ -191,6 +212,14 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("startBtnVisible", startBtnVisible);
         editor.putBoolean("stopBtnVisible", stopBtnVisible);
         editor.apply();
+
+        //Подсвечиваем фон красным при нжатии Reset(можно использовать разные варианты цвета Color.argb, Color.rgb, hex
+        ConstraintLayout mainBg = (ConstraintLayout) findViewById(R.id.main_activity);
+        ObjectAnimator colorFade = ObjectAnimator.ofObject(mainBg, "backgroundColor",
+                new ArgbEvaluator(), (0xFFFFD4D4), 0xFFFFFFFF);
+        colorFade.setDuration(2000);
+        colorFade.start();
+
     }
 
 
