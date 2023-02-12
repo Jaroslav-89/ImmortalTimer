@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
             final Button startBtn = (Button) findViewById(R.id.start);
             final Button stopBtn = (Button) findViewById(R.id.stop);
+            final Button resetUnavailableBtn = (Button) findViewById(R.id.reset_unavailable);
+            final Button resetAvailableBtn = (Button) findViewById(R.id.reset_available);
+
 
             //Получаем значения из настроек, сохраненных в памяти устройства, на случай закрытия приложения во время работы
             seconds = sharedPreferences.getLong("seconds", 0);
@@ -55,9 +58,20 @@ public class MainActivity extends AppCompatActivity {
             if (startBtnVisible) {
                 startBtn.setVisibility(View.VISIBLE);
                 stopBtn.setVisibility(View.GONE);
+
+
             } else {
                 startBtn.setVisibility(View.GONE);
                 stopBtn.setVisibility(View.VISIBLE);
+
+            }
+
+            if (running||pause){
+                resetUnavailableBtn.setVisibility(View.GONE);
+                resetAvailableBtn.setVisibility(View.VISIBLE);
+            }else {
+                resetUnavailableBtn.setVisibility(View.VISIBLE);
+                resetAvailableBtn.setVisibility(View.GONE);
             }
 
         }
@@ -77,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
 
         final Button startBtn = (Button) findViewById(R.id.start);
         final Button stopBtn = (Button) findViewById(R.id.stop);
+        final Button resetUnavailableBtn = (Button) findViewById(R.id.reset_unavailable);
+        final Button resetAvailableBtn = (Button) findViewById(R.id.reset_available);
+
+        resetUnavailableBtn.setVisibility(View.GONE);
+        resetAvailableBtn.setVisibility(View.VISIBLE);
 
         if (!timerOn) {
             if (!running) {
@@ -111,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             stopBtnVisible = false;
         }
 
+
         //Сохранение изменений в настройки
         SharedPreferences sharedPreferences = this.getSharedPreferences("StopwatchSetting", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -136,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
 
         final Button startBtn = (Button) findViewById(R.id.start);
         final Button stopBtn = (Button) findViewById(R.id.stop);
+        final Button resetUnavailableBtn = (Button) findViewById(R.id.reset_unavailable);
+        final Button resetAvailableBtn = (Button) findViewById(R.id.reset_available);
 
         running = false;
         pause = false;
@@ -151,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
         stopBtn.setVisibility(View.GONE);
         startBtnVisible = true;
         stopBtnVisible = false;
+
+        resetUnavailableBtn.setVisibility(View.VISIBLE);
+        resetAvailableBtn.setVisibility(View.GONE);
 
         //Сохранение изменений в настройки
         SharedPreferences.Editor editor = sharedPreferences.edit();

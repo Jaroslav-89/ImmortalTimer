@@ -3,43 +3,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
+
+
+    <TextView
+        android:id="@+id/time_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="00:00:00.0"
+        android:textSize="60sp"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:layout_marginTop="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
 
     <LinearLayout
 
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/time_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="00:00:00"
-            android:textSize="50sp" />
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/time_view"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
             android:id="@+id/start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:backgroundTint="#7EFF6F"
+            app:cornerRadius="20dp"
+            android:textColor="#434343"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:onClick="onClickStartStop"
             android:text="start"
-            android:visibility="visible" />
+            android:visibility="visible"
+            />
 
         <Button
             android:id="@+id/stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:backgroundTint="#FAFF5E"
+            app:cornerRadius="20dp"
+            android:textColor="#434343"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:onClick="onClickStartStop"
             android:text="pause"
             android:visibility="gone" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/reset_unavailable"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:backgroundTint="#FFB9B9"
+            app:cornerRadius="20dp"
+            android:textColor="#8C8C8C"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:onClick="onClickReset"
-            android:text="reset" />
+            android:text="reset"
+            android:layout_marginTop="30dp"
+            android:visibility="visible"/>
+
+        <Button
+            android:id="@+id/reset_available"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:backgroundTint="#FD6565"
+            app:cornerRadius="20dp"
+            android:textColor="#434343"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
+            android:onClick="onClickReset"
+            android:text="reset"
+            android:layout_marginTop="30dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
