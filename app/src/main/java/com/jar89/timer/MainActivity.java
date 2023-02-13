@@ -180,6 +180,17 @@ public class MainActivity extends AppCompatActivity {
         final Button resetAvailableBtn = (Button) findViewById(R.id.reset_available);
 
 
+        //Подсвечиваем фон красным при нжатии Reset, если были нажаты пуск или пауза
+        // (можно использовать разные варианты цвета Color.argb, Color.rgb, hex
+        if (running || pause) {
+            ConstraintLayout mainBg = (ConstraintLayout) findViewById(R.id.main_activity);
+            ObjectAnimator colorFade = ObjectAnimator.ofObject(mainBg, "backgroundColor",
+                    new ArgbEvaluator(), (0xFFFFD4D4), 0xFFFFFFFF);
+            colorFade.setDuration(500);
+            colorFade.start();
+        }
+
+
         running = false;
         pause = false;
         seconds = 0;
@@ -213,12 +224,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("stopBtnVisible", stopBtnVisible);
         editor.apply();
 
-        //Подсвечиваем фон красным при нжатии Reset(можно использовать разные варианты цвета Color.argb, Color.rgb, hex
-        ConstraintLayout mainBg = (ConstraintLayout) findViewById(R.id.main_activity);
-        ObjectAnimator colorFade = ObjectAnimator.ofObject(mainBg, "backgroundColor",
-                new ArgbEvaluator(), (0xFFFFD4D4), 0xFFFFFFFF);
-        colorFade.setDuration(2000);
-        colorFade.start();
 
     }
 
